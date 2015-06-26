@@ -1,5 +1,12 @@
 require('babel/register')({
   stage: 0
-});
+})
 
-require('./src/server');
+if (process.env.NODE_ENV !== 'production') {
+  if (require('piping')({
+    hook: true,
+    ignore: /(\/\.|~$|\.json|\.scss$)/i
+  })) {
+    require('./src/server')
+  }
+}

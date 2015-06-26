@@ -12,7 +12,7 @@ app.use((req, res) => {
         <title>Universal React on Azure</title>
       </head>
       <body>
-        Hello World from React
+        Hello World from React!
       </body>
     </html>
   ))
