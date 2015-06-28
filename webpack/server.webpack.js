@@ -3,12 +3,13 @@ import path from 'path'
 import webpack from 'webpack'
 import WebpackDevServer from 'webpack-dev-server'
 
-import { notifyStats, writeStats } from './util'
+import writeStats from './util/writeStats'
+import notifyStats from './util/notifyStats'
 
-const log = require('debug')('webpack:server'),
-  host = process.env.host || 'localhost',
-  port = parseInt(process.env.port) + 1 || 3001,
-  assetsPath = path.resolve(__dirname, '../static/dist')
+const log = require('debug')('webpack:server')
+const host = process.env.host || 'localhost'
+const port = parseInt(process.env.port, 10) + 1 || 3001
+const assetsPath = path.resolve(__dirname, '../static/dist')
 
 const config = {
   devtool: 'eval-source-map',
@@ -47,11 +48,11 @@ const config = {
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
     // stats
-    function () {
-      this.plugin('done', notifyStats);
+    function notifyStatsPlugin() {
+      this.plugin('done', notifyStats)
     },
-    function () {
-      this.plugin('done', writeStats);
+    function writeStatsPlugin() {
+      this.plugin('done', writeStats)
     }
   ]
 }
