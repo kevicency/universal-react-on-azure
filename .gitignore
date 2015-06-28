@@ -1,3 +1,4 @@
 node_modules
+static/dist
 webpack-stats.json
 npm-debug.log

@@ -8,7 +8,7 @@ import Location from 'react-router/lib/Location'
 import routes from './routes'
 
 const webpackStatsFile = '../webpack-stats.json'
-const log = require('debug')('🌐')
+const debug = require('debug')('🌐')
 const app = new Express()
 
 if (app.get('env') === 'production') {
@@ -52,11 +52,11 @@ app.use((req, res) => {
   })
 })
 
-const port = process.env.port || 3000
+const port = process.env.port || process.env.PORT || 3000
 app.listen(port, (err) => {
   if (err) {
-    log(err)
+    debug(err)
   } else {
-    log(`Listening on port ${port}`)
+    debug(`Listening on port ${port}`)
   }
 })
