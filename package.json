@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_PATH=\"./src\" NODE_ENV=\"production\" PORT=\"8080\" node index.js",
+    "prestart": "npm run build",
+    "start": "node index.js",
+    "start:prod": "npm run build && NODE_PATH=\"./src\" NODE_ENV=\"production\" PORT=\"8080\" node index.js",
     "start:dev": "DEBUG=🌐  NODE_PATH=\"./src\" NODE_ENV=\"development\" node index.js",
     "lint": "node ./node_modules/eslint/bin/eslint.js -c .eslintrc src",
     "build": "node ./node_modules/webpack/bin/webpack.js --verbose --colors --display-error-details --config webpack/production.config.js",
