@@ -5,22 +5,24 @@ import Express from 'express'
 import React from 'react'
 import Router from 'react-router'
 import Location from 'react-router/lib/Location'
+import { Provider } from 'redux/react'
 import routes from './routes'
 
 const webpackStatsFile = '../webpack-stats.json'
 const debug = require('debug')('🌐')
 const app = new Express()
+const redux = require('./createRedux')()
 
 if (app.get('env') === 'production') {
   app.use(require('serve-static')(path.join(__dirname, '..', 'static')))
 }
 
-let webpackStats = require(webpackStatsFile)
+let webpackStats
 
 app.use((req, res) => {
   const location = new Location(req.path, req.query)
 
-  if (app.get('env') !== 'production') {
+  if (app.get('env') !== 'production' || !webpackStats) {
     delete require.cache[require.resolve(webpackStatsFile)]
 
     webpackStats = require(webpackStatsFile)
@@ -41,7 +43,9 @@ app.use((req, res) => {
           </head>
           <body>
             <div id="app" dangerouslySetInnerHTML={{__html: React.renderToString(
-              <Router {...initialState}/>
+              <Provider redux={redux}>
+                {() => <Router {...initialState}/>}
+              </Provider>
             )}} />
           <script src={`${webpackStats.script[0]}`} />
           </body>
