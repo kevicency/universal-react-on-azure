@@ -8,7 +8,7 @@ import routes from './routes'
 
 debug.enable()
 
-const redux = require('./createRedux')()
+const redux = require('./createRedux')(window.__state__)
 const history = new BrowserHistory()
 
 React.render(

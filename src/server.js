@@ -11,7 +11,7 @@ import routes from './routes'
 const webpackStatsFile = '../webpack-stats.json'
 const debug = require('debug')('🌐')
 const app = new Express()
-const redux = require('./createRedux')()
+const redux = require('./createRedux')({likes: { count: 42}})
 
 if (app.get('env') === 'production') {
   app.use(require('serve-static')(path.join(__dirname, '..', 'static')))
@@ -34,6 +34,7 @@ app.use((req, res) => {
     } else {
       const status = initialState.branch
         .find(x => (x.name === 'not-found')) ? 404 : 200
+      const state = redux.getState()
 
       const html = React.renderToStaticMarkup(
         <html lang="en-us">
@@ -47,6 +48,7 @@ app.use((req, res) => {
                 {() => <Router {...initialState}/>}
               </Provider>
             )}} />
+          <script dangerouslySetInnerHTML={{__html: `window.__state__=${JSON.stringify(state)};`}}/>
           <script src={`${webpackStats.script[0]}`} />
           </body>
         </html>
