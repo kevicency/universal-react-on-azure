@@ -17,6 +17,6 @@ const dispatcher = createDispatcher(
   getState => [thunkMiddleware(getState), debugMiddleware]
 )
 
-export default function(initialState) {
+export default function(initialState = {}) {
   return createRedux(dispatcher, initialState)
 }
