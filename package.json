@@ -36,8 +36,6 @@
     "node-libs-browser": "^0.5.2",
     "parallelshell": "^1.1.1",
     "react-hot-loader": "^1.2.7",
-    "strip-loader": "^0.1.0",
-    "webpack": "^1.9.13",
     "webpack-dev-server": "^1.9.0"
   }
 }
