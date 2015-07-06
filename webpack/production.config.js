@@ -8,7 +8,6 @@ var strip = require('strip-loader');
 var assetsPath = path.join(__dirname, '../static/dist');
 
 module.exports = {
-  devtool: 'source-map',
   context: path.resolve(__dirname, '..'),
   entry: {
     'main': './src/client.js'
