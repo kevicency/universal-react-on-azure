@@ -113,7 +113,7 @@ selectNodeVersion
 if [ -e "$DEPLOYMENT_TARGET/package.json" ]; then
   cd "$DEPLOYMENT_TARGET"
   echo npm install
-  eval $NPM_CMD install
+  eval $NPM_CMD install --production
   echo npm build
   eval $NPM_CMD run build
 
