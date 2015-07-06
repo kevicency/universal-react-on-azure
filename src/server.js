@@ -5,22 +5,24 @@ import Express from 'express'
 import React from 'react'
 import Router from 'react-router'
 import Location from 'react-router/lib/Location'
+import { Provider } from 'redux/react'
 import routes from './routes'
 
 const webpackStatsFile = '../webpack-stats.json'
 const debug = require('debug')('🌐')
 const app = new Express()
+const redux = require('./createRedux')({likes: { count: 42}})
 
 if (app.get('env') === 'production') {
   app.use(require('serve-static')(path.join(__dirname, '..', 'static')))
 }
 
-let webpackStats = require(webpackStatsFile)
+let webpackStats
 
 app.use((req, res) => {
   const location = new Location(req.path, req.query)
 
-  if (app.get('env') !== 'production') {
+  if (app.get('env') !== 'production' || !webpackStats) {
     delete require.cache[require.resolve(webpackStatsFile)]
 
     webpackStats = require(webpackStatsFile)
@@ -32,6 +34,7 @@ app.use((req, res) => {
     } else {
       const status = initialState.branch
         .find(x => (x.name === 'not-found')) ? 404 : 200
+      const state = redux.getState()
 
       const html = React.renderToStaticMarkup(
         <html lang="en-us">
@@ -41,8 +44,11 @@ app.use((req, res) => {
           </head>
           <body>
             <div id="app" dangerouslySetInnerHTML={{__html: React.renderToString(
-              <Router {...initialState}/>
+              <Provider redux={redux}>
+                {() => <Router {...initialState}/>}
+              </Provider>
             )}} />
+          <script dangerouslySetInnerHTML={{__html: `window.__state__=${JSON.stringify(state)};`}}/>
           <script src={`${webpackStats.script[0]}`} />
           </body>
         </html>
