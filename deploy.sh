@@ -112,7 +112,9 @@ selectNodeVersion
 # 3. Install npm packages
 if [ -e "$DEPLOYMENT_TARGET/package.json" ]; then
   cd "$DEPLOYMENT_TARGET"
+  echo npm install
   eval $NPM_CMD install
+  echo npm build
   eval $NPM_CMD build
 
   exitWithMessageOnError "npm failed"
