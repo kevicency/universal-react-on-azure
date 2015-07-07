@@ -1,6 +1,7 @@
 import path from 'path'
 import Express from 'express'
 import React from 'react'
+import ReactDOM from 'react-dom/server'
 import Router from 'react-router'
 import Location from 'react-router/lib/Location'
 import { Provider } from 'redux/react'
@@ -39,14 +40,14 @@ app.use((req, res) => {
         .find(x => (x.name === 'not-found')) ? 404 : 200
       const state = redux.getState()
 
-      const html = React.renderToStaticMarkup(
+      const html = ReactDOM.renderToStaticMarkup(
         <html lang="en-us">
           <head>
             <meta charSet="utf-8"/>
             <title>Universal React on Azure</title>
           </head>
           <body>
-            <div id="app" dangerouslySetInnerHTML={{__html: React.renderToString(
+            <div id="app" dangerouslySetInnerHTML={{__html: ReactDOM.renderToString(
               <Provider redux={redux}>
                 {() => <Router {...initialState}/>}
               </Provider>
