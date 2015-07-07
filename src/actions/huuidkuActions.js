@@ -1,6 +1,6 @@
 import { createAction } from 'redux-actions'
 import Uuid from 'node-uuid'
-import { encode, encodeAsync } from '../huuidku'
+import { encode, encodeAsync } from '../util/huuidkuEncoder'
 
 export const getByUuid = createAction('GET_BY_UUID', (uuid) => ({
   uuid,

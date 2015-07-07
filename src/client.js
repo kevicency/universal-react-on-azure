@@ -7,7 +7,7 @@ import { Provider } from 'redux/react'
 
 import routes from './routes'
 
-debug.enable()
+debug.enable('*')
 
 const redux = require('./createRedux')(window.__state__)
 const history = new BrowserHistory()
