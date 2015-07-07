@@ -7,4 +7,4 @@ export const getByUuid = createAction('GET_BY_UUID', (uuid) => ({
   haiku: encode(uuid)
 }))
 
-export const getRandom = createAction('GET_RANDOM', () => getByUuid(Uuid.v1()).payload)
+export const getRandom = createAction('GET_RANDOM', () => getByUuid(Uuid.v4()).payload)

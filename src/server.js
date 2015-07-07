@@ -32,7 +32,6 @@ app.use((req, res) => {
     if (err) {
       res.status(500).send(err)
     } else {
-      debug('Inital router state', initialState)
       Promise.all(
         initialState.components
         .map(component => component.DecoratedComponent || component)
@@ -56,8 +55,13 @@ app.use((req, res) => {
             <head>
               <meta charSet="utf-8"/>
               <title>Universal React on Azure</title>
+              <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.0/material.blue-green.min.css" />
+              <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
             </head>
-            <body>
+            <body style={{
+              background: '#fafafa',
+              color: '#757575'
+            }}>
               <div id="app" dangerouslySetInnerHTML={{__html: innerHtml}} />
               <script dangerouslySetInnerHTML={{__html: `window.__state__=${JSON.stringify(state)};`}}/>
               <script src={`${webpackStats.script[0]}`} />

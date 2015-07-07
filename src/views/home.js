@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'redux/react'
 
 import HuuidkuQuote from '../components/HuuidkuQuote'
+import Card from '../components/Card'
 import { getRandom } from '../actions/huuidkuActions'
 
 @connect((state) => ({
@@ -25,16 +26,20 @@ export default class Home extends React.Component {
     let { huuidku, dispatch } = this.props
 
     return (
-      <div>
-        <h1>Universal React on Azure</h1>
-        <p>
-          This is a [(mostly) useless] react example.
-          <br /><br />
-          But here is something for your troubles.
+      <div style={{margin: '0 auto'}}>
+        <div style={{textAlign: 'center'}}>
+          <h4>Welcome!</h4>
+          <p>
+            This is a [(mostly) useless] React + Friends example.<br />
+            But here is a unique huuidku* for your troubles.
+          </p>
+        </div>
+        <Card actions={[{ title: 'Refresh', handler: () => dispatch(getRandom()) }]}>
+          {huuidku ? <HuuidkuQuote huuidku={huuidku} /> : null}
+        </Card>
+        <p style={{marginTop: '12px'}}>
+          * <i>huuidku</i> &mdash; A haiku generated from an uuid
         </p>
-        <h2>A huuidku written just for you!</h2>
-        { huuidku ? <HuuidkuQuote huuidku={huuidku} /> : null }
-        <button onClick={() => dispatch(getRandom())}>Get another</button>
       </div>
     )
   }

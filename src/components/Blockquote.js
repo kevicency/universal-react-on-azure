@@ -9,17 +9,18 @@ export default class Blockquote extends React.Component {
   render() {
     const { quote, author } = this.props
     const footer = author ? (
-      <footer>
-        &mdash;
-        {author}
-      </footer>
+      <div style={{textAlign: 'right', margin: '0 40px 16px 40px'}}>
+        &mdash; {author}
+      </div>
     ) : null
 
     return (
-      <blockquote>
-        {quote}
+      <div>
+        <blockquote style={{whiteSpace: 'pre', textAlign: 'left'}}>
+          {quote}
+        </blockquote>
         {footer}
-      </blockquote>
+      </div>
     )
   }
 }

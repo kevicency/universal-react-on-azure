@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect } from 'redux/react'
-import { Link } from 'react-router'
 
 import HuuidkuQuote from '../components/HuuidkuQuote'
+import Card from '../components/Card'
 import { getByUuid } from '../actions/huuidkuActions'
 
 @connect(({huuidkus}, {params}) => ({
@@ -26,9 +26,10 @@ export default class Huuidku extends React.Component {
     const { huuidku } = this.props
 
     return (
-      <div>
-        {huuidku ? <HuuidkuQuote huuidku={huuidku} /> : null }
-        <Link to="/">Back</Link>
+      <div style={{margin: '40px auto'}}>
+        <Card>
+          {huuidku ? <HuuidkuQuote huuidku={huuidku} /> : null}
+        </Card>
       </div>
     )
   }
