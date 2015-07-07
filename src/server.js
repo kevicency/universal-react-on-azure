@@ -1,17 +1,16 @@
 import path from 'path'
-
 import Express from 'express'
-
 import React from 'react'
 import Router from 'react-router'
 import Location from 'react-router/lib/Location'
 import { Provider } from 'redux/react'
+
 import routes from './routes'
 
 const webpackStatsFile = '../webpack-stats.json'
 const debug = require('debug')('🌐')
 const app = new Express()
-const redux = require('./createRedux')({likes: { count: 42}})
+const redux = require('./createRedux')()
 
 if (app.get('env') === 'production') {
   app.use(require('serve-static')(path.join(__dirname, '..', 'static')))
@@ -32,6 +31,10 @@ app.use((req, res) => {
     if (err) {
       res.status(500).send(err)
     } else {
+      // Promise.all(initialState.components
+      //   .filter(component => component.foo)
+      //   .map(component => component.foo(redux.dispatch))
+      // ).then(() => {
       const status = initialState.branch
         .find(x => (x.name === 'not-found')) ? 404 : 200
       const state = redux.getState()
@@ -54,6 +57,9 @@ app.use((req, res) => {
         </html>
       )
       res.status(status).send('<!doctype html>\n' + html)
+      // }).catch(err => { // eslint-disable-line no-shadow
+      //   res.status(500).send(err.toString())
+      // })
     }
   })
 })

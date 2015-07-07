@@ -1,6 +1,7 @@
 import { createRedux, createDispatcher, composeStores } from 'redux'
 import thunkMiddleware from 'redux/lib/middleware/thunk'
-import likeStore from './stores/likeStore'
+
+import huuidkuReducer from './reducers/huuidkuReducer'
 import debug from 'debug'
 
 const log = debug('redux')
@@ -11,7 +12,9 @@ function debugMiddleware(next) {
     next(action)
   }
 }
-const store = composeStores({likes: likeStore})
+const store = composeStores({
+  huuidku: huuidkuReducer
+})
 const dispatcher = createDispatcher(
   store,
   getState => [thunkMiddleware(getState), debugMiddleware]

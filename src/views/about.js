@@ -6,6 +6,7 @@ export default class About extends React.Component {
     return (
       <div>
         <h1>About</h1>
+        <p>{this.props.params}</p>
         <Link to="/">Back to Home</Link>
       </div>
     )
