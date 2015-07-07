@@ -1,9 +1,12 @@
 import React from 'react'
 
-export default class Home extends React.Component {
+export default class NotFound extends React.Component {
   render() {
     return (
-      <div>404 - Not Found</div>
+      <div style={{margin: '0 auto', textAlign: 'center'}}>
+        <h2>404</h2>
+        <p>Not Found</p>
+      </div>
     )
   }
 }
