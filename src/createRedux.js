@@ -1,5 +1,6 @@
 import { createRedux, createDispatcher, composeStores } from 'redux'
 import thunkMiddleware from 'redux/lib/middleware/thunk'
+import promiseMiddleware from 'redux-promise'
 
 import huuidkuReducer from './reducers/huuidkuReducer'
 import debug from 'debug'
@@ -17,7 +18,7 @@ const store = composeStores({
 })
 const dispatcher = createDispatcher(
   store,
-  getState => [thunkMiddleware(getState), debugMiddleware]
+  getState => [thunkMiddleware(getState), promiseMiddleware, debugMiddleware]
 )
 
 export default function(initialState = {}) {

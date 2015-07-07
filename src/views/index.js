@@ -1,4 +1,5 @@
+export { default as Application } from './Application'
+export { default as Async } from './Async'
 export { default as Home } from './Home'
 export { default as Huuidku } from './Huuidku'
 export { default as NotFound } from './404'
-export { default as Application } from './Application'

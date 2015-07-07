@@ -47,6 +47,9 @@ export default class Application extends React.Component {
           <Link to="/" className="mdl-navigation__link">
             Home
           </Link>
+          <Link to="/async" className="mdl-navigation__link">
+            Async
+          </Link>
         </Header>
         <main className="mdl-layout__content" style={{
           paddingBottom: 40
