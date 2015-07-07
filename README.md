@@ -50,4 +50,4 @@ Scaffold a script using `azure-cli`
 $ azure site deploymentscript --node
 ```
 
-Add the bundle command (here: `npm run build`) after `npm install`, see [deploy.sh]().
+Add the bundle command (here: `npm run build`) after `npm install`, see [deploy.sh](https://github.com/kmees/universal-react-on-azure/blob/master/deploy.sh#L118).
