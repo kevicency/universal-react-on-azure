@@ -9,11 +9,11 @@ const log = debug('redux')
 function debugMiddleware(next) {
   return action => {
     log('Dispatching: ', action)
-    next(action)
+    return next(action)
   }
 }
 const store = composeStores({
-  huuidku: huuidkuReducer
+  huuidkus: huuidkuReducer
 })
 const dispatcher = createDispatcher(
   store,

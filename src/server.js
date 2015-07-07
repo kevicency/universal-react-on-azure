@@ -11,7 +11,6 @@ import routes from './routes'
 const webpackStatsFile = '../webpack-stats.json'
 const debug = require('debug')('🌐')
 const app = new Express()
-const redux = require('./createRedux')()
 
 if (app.get('env') === 'production') {
   app.use(require('serve-static')(path.join(__dirname, '..', 'static')))
@@ -20,6 +19,7 @@ if (app.get('env') === 'production') {
 let webpackStats
 
 app.use((req, res) => {
+  const redux = require('./createRedux')()
   const location = new Location(req.path, req.query)
 
   if (app.get('env') !== 'production' || !webpackStats) {
@@ -32,35 +32,42 @@ app.use((req, res) => {
     if (err) {
       res.status(500).send(err)
     } else {
-      // Promise.all(initialState.components
-      //   .filter(component => component.foo)
-      //   .map(component => component.foo(redux.dispatch))
-      // ).then(() => {
-      const status = initialState.branch
-        .find(x => (x.name === 'not-found')) ? 404 : 200
-      const state = redux.getState()
+      debug('Inital router state', initialState)
+      Promise.all(
+        initialState.components
+        .map(component => component.DecoratedComponent || component)
+        .filter(component => component.init)
+        .map(component => component.init({
+          dispatch: redux.dispatch,
+          ...initialState
+        }))
+      ).then(() => {
+        const status = initialState.branch
+          .find(x => (x.name === 'not-found')) ? 404 : 200
+        const innerHtml = ReactDOM.renderToString(
+          <Provider redux={redux}>
+            {() => <Router {...initialState}/>}
+          </Provider>
+        )
+        const state = redux.getState()
 
-      const html = ReactDOM.renderToStaticMarkup(
-        <html lang="en-us">
-          <head>
-            <meta charSet="utf-8"/>
-            <title>Universal React on Azure</title>
-          </head>
-          <body>
-            <div id="app" dangerouslySetInnerHTML={{__html: ReactDOM.renderToString(
-              <Provider redux={redux}>
-                {() => <Router {...initialState}/>}
-              </Provider>
-            )}} />
-          <script dangerouslySetInnerHTML={{__html: `window.__state__=${JSON.stringify(state)};`}}/>
-          <script src={`${webpackStats.script[0]}`} />
-          </body>
-        </html>
-      )
-      res.status(status).send('<!doctype html>\n' + html)
-      // }).catch(err => { // eslint-disable-line no-shadow
-      //   res.status(500).send(err.toString())
-      // })
+        const html = ReactDOM.renderToStaticMarkup(
+          <html lang="en-us">
+            <head>
+              <meta charSet="utf-8"/>
+              <title>Universal React on Azure</title>
+            </head>
+            <body>
+              <div id="app" dangerouslySetInnerHTML={{__html: innerHtml}} />
+              <script dangerouslySetInnerHTML={{__html: `window.__state__=${JSON.stringify(state)};`}}/>
+              <script src={`${webpackStats.script[0]}`} />
+            </body>
+          </html>
+        )
+        res.status(status).send('<!doctype html>\n' + html)
+      }).catch(err => { // eslint-disable-line no-shadow
+        res.status(500).send(err.toString())
+      })
     }
   })
 })

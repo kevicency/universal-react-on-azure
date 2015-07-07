@@ -9,11 +9,10 @@ export default class HuuidkuQuote extends React.Component {
 
   render() {
     const { haiku, uuid } = this.props.huuidku
-    const author = `{${uuid}}`
 
     return (
      <Blockquote quote={haiku} author={
-       <Link to={`/${author}`}>{author}</Link>
+       <Link to={`/huuidku/${uuid}`}>{`{${uuid}}`}</Link>
      } />
     )
   }
