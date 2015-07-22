@@ -1,6 +1,7 @@
+import { STATS_FILE } from '../constants'
+
 var fs = require('fs'),
-  path = require('path'),
-  filepath = path.resolve(__dirname, '../../webpack-stats.json');
+  path = require('path');
 
 module.exports = function writeStats(stats) {
   var publicPath = this.options.output.publicPath;
@@ -33,5 +34,5 @@ module.exports = function writeStats(stats) {
     script: script,
   };
 
-  fs.writeFileSync(filepath, JSON.stringify(content));
+  fs.writeFileSync(STATS_FILE, JSON.stringify(content));
 };

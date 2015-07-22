@@ -1,4 +1,5 @@
 import path from 'path'
+import debug from 'debug'
 import Express from 'express'
 import React from 'react'
 import ReactDOM from 'react-dom/server'
@@ -8,11 +9,15 @@ import { Provider } from 'redux/react'
 
 import routes from './routes'
 
+const PORT = process.env.PORT || 3000
+const ENV = process.env.NODE_ENV || 'development'
+
 const webpackStatsFile = '../webpack-stats.json'
-const debug = require('debug')('🌐')
+const log = debug('server')
+
 const app = new Express()
 
-if (app.get('env') === 'production') {
+if (ENV === 'production') {
   app.use(require('serve-static')(path.join(__dirname, '..', 'static')))
 }
 
@@ -76,11 +81,10 @@ app.use((req, res) => {
   })
 })
 
-const port = process.env.port || process.env.PORT || 3000
-app.listen(port, (err) => {
+app.listen(PORT, (err) => {
   if (err) {
-    debug(err)
+    log(err)
   } else {
-    debug(`Listening on port ${port}`)
+    log(`Listening on port ${PORT}`)
   }
 })
